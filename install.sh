@@ -95,6 +95,7 @@ sudo xbps-install -y \
     nemo \
     gvfs \
     gvfs-smb \
+    gnome-software \
     
 
      
