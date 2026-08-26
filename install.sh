@@ -102,6 +102,9 @@ sudo xbps-install -y \
 
      echo ""
      echo "Instalando fuentes "
+
+     git clone https://github.com/google/fonts.git /tmp/google-fonts
+     
      
      mkdir -p ~/.local/share/fonts/roboto-mono
      mkdir -p ~/.local/share/fonts/roboto-flex
