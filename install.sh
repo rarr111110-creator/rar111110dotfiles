@@ -103,45 +103,59 @@ sudo xbps-install -y \
 
      echo ""
      echo "Instalando fuentes Roboto Mono y Roboto Flex..."
-     
-if curl -L -o "/tmp/roboto-mono.zip" "https://github.com/google/fonts/raw/main/apache/robotoMono/RobotoMono%5Bwght%5D.ttf" 2>/dev/null && [ -f "/tmp/roboto-mono.zip" ]; then
-    # Si se descargo un solo archivo TTF, copiarlo directamente
-    if file "/tmp/roboto-mono.zip" | grep -q "TrueType"; then
-        mv "/tmp/roboto-mono.zip" "$HOME/.local/share/fonts/roboto-mono/RobotoMono.ttf"
-        echo "Roboto Mono instalada correctamente."
-    else
-        rm -f "/tmp/roboto-mono.zip"
-        # Intentar con la URL correcta del release
-        if curl -L -o "/tmp/roboto-mono.zip" "https://github.com/google/fonts/releases/download/v2.001/roboto-mono-v2.001.zip" 2>/dev/null && [ -f "/tmp/roboto-mono.zip" ] && unzip -t "/tmp/roboto-mono.zip" >/dev/null 2>&1; then
-            unzip -q -o "/tmp/roboto-mono.zip" -d /tmp/roboto-mono-extract
-            find /tmp/roboto-mono-extract -type f -iname '*.ttf' -exec cp -n {} "$HOME/.local/share/fonts/roboto-mono/" \;
-            rm -rf /tmp/roboto-mono-extract /tmp/roboto-mono.zip
-            echo "Roboto Mono instalada correctamente."
-        else
-            rm -f "/tmp/roboto-mono.zip"
-            echo "Advertencia: No se pudo descargar Roboto Mono. Intentando con paquete fonts-roboto-ttf..."
-            sudo xbps-install -y fonts-roboto-ttf 2>/dev/null || true
-        fi
-    fi
-elif wget -q -O "/tmp/roboto-mono.zip" "https://github.com/google/fonts/raw/main/apache/robotoMono/RobotoMono%5Bwght%5D.ttf" && [ -f "/tmp/roboto-mono.zip" ]; then
-    if file "/tmp/roboto-mono.zip" | grep -q "TrueType"; then
-        mv "/tmp/roboto-mono.zip" "$HOME/.local/share/fonts/roboto-mono/RobotoMono.ttf"
-        echo "Roboto Mono instalada correctamente."
-    else
-        rm -f "/tmp/roboto-mono.zip"
-        if wget -q -O "/tmp/roboto-mono.zip" "https://github.com/google/fonts/releases/download/v2.001/roboto-mono-v2.001.zip" && [ -f "/tmp/roboto-mono.zip" ] && unzip -t "/tmp/roboto-mono.zip" >/dev/null 2>&1; then
-            unzip -q -o "/tmp/roboto-mono.zip" -d /tmp/roboto-mono-extract
-            find /tmp/roboto-mono-extract -type f -iname '*.ttf' -exec cp -n {} "$HOME/.local/share/fonts/roboto-mono/" \;
-            rm -rf /tmp/roboto-mono-extract /tmp/roboto-mono.zip
-            echo "Roboto Mono instalada correctamente."
-        else
-            rm -f "/tmp/roboto-mono.zip"
-            echo "Advertencia: No se pudo descargar Roboto Mono. Intentando con paquete fonts-roboto-ttf..."
-            sudo xbps-install -y fonts-roboto-ttf 2>/dev/null || true
-        fi
-    fi
+
+FONT_DIR="$HOME/.local/share/fonts/roboto-mono"
+RAW_TTF_URL="https://github.com/google/fonts/raw/main/apache/robotoMono/RobotoMono[wght].ttf"
+ZIP_URL="https://github.com/google/fonts/releases/download/v2.001/roboto-mono-v2.001.zip"
+TMP_FILE="/tmp/roboto-mono-download"
+EXTRACT_DIR="/tmp/roboto-mono-extract"
+
+mkdir -p "$FONT_DIR"
+
+cleanup() {
+  rm -f "$TMP_FILE"
+  rm -rf "$EXTRACT_DIR"
+}
+trap cleanup EXIT
+
+download() {
+  url="$1"
+  if command -v curl >/dev/null 2>&1; then
+    curl -L -s -o "$TMP_FILE" "$url"
+    return $?
+  elif command -v wget >/dev/null 2>&1; then
+    wget -q -O "$TMP_FILE" "$url"
+    return $?
+  else
+    return 2
+  fi
+}
+
+if download "$RAW_TTF_URL" && [ -s "$TMP_FILE" ]; then
+  if command -v file >/dev/null 2>&1 && file "$TMP_FILE" | grep -iq "TrueType"; then
+    mv -f "$TMP_FILE" "$FONT_DIR/RobotoMono.ttf"
+    echo "Roboto Mono instalada correctamente (TTF directo)."
+    exit 0 || true
+  fi
+fi
+
+if download "$ZIP_URL" && [ -s "$TMP_FILE" ]; then
+  if command -v unzip >/dev/null 2>&1 && unzip -t "$TMP_FILE" >/dev/null 2>&1; then
+    rm -rf "$EXTRACT_DIR"
+    unzip -q -o "$TMP_FILE" -d "$EXTRACT_DIR"
+    find "$EXTRACT_DIR" -type f -iname '*.ttf' -exec cp -n {} "$FONT_DIR/" \;
+    echo "Roboto Mono instalada correctamente (desde ZIP)."
+    exit 0 || true
+  fi
+fi
+
+echo "Advertencia: No se pudo descargar Roboto Mono directamente. Intentando con paquete fonts-roboto-ttf..."
+if command -v xbps-install >/dev/null 2>&1; then
+  sudo xbps-install -y fonts-roboto-ttf 2>/dev/null || true
+fi
+
+echo "Fuentes instaladas (o se intentó instalar paquete)."
     
-echo "Fuentes instaladas correctamente."
 
 
 
