@@ -95,7 +95,8 @@ sudo xbps-install -y \
     gnome-software \
     nautilus \
     mesa \
-    mesa-dri
+    mesa-dri \
+    unzip
     
 
      
