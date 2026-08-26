@@ -96,6 +96,7 @@ sudo xbps-install -y \
     gvfs \
     gvfs-smb \
     gnome-software \
+    nautilus \
     
 
      
