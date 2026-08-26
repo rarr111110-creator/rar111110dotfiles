@@ -103,13 +103,17 @@ sudo xbps-install -y \
      echo ""
      echo "Instalando fuentes "
 
-     git clone --depth 1 --no-checkout \
-     https://github.com/google/fonts.git /tmp/google-fonts
-     
-     
-     
-     mkdir -p ~/.local/share/fonts/roboto-mono
-     mkdir -p ~/.local/share/fonts/roboto-flex
+git clone --depth 1 --filter=blob:none --sparse \
+    https://github.com/google/fonts.git /tmp/google-fonts
+
+cd /tmp/google-fonts
+
+git sparse-checkout set \
+    apache/robotomono \
+    ofl/robotoflex
+
+mkdir -p "$HOME/.local/share/fonts/roboto-mono"
+mkdir -p "$HOME/.local/share/fonts/roboto-flex"
 
 if [ -d /tmp/google-fonts/apache/robotomono ]; then
     find /tmp/google-fonts/apache/robotomono -type f -iname '*.ttf' \
@@ -126,7 +130,6 @@ else
     echo "ERROR: No se encontró Roboto Flex"
     exit 1
 fi
-
 
 
 
