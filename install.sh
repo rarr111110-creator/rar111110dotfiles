@@ -104,7 +104,7 @@ sudo xbps-install -y \
      echo ""
      echo "Instalando fuentes "
 
-     git clone https://github.com/google/fonts.git /tmp/google-fonts
+     git clone --depth 1 https://github.com/google/fonts.git /tmp/google-fonts
      
      
      mkdir -p ~/.local/share/fonts/roboto-mono
