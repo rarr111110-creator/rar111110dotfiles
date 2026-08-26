@@ -7,7 +7,7 @@ echo "  Instalador de Hyprland y Noctalia para Void Linux"
 echo "==================================================="
 
 echo ""
-echo "[1/6] Configurando repositorios..."
+echo "[1/7] Configurando repositorios..."
 
 echo "repository=https://repo.voiders.dev" | sudo tee /etc/xbps.d/10-voiders-community.conf > /dev/null
 
@@ -18,7 +18,7 @@ echo "Actualizando sistema..."
 sudo xbps-install -Syu
 
 echo ""
-echo "[2/6] Instalando gestores de sesión..."
+echo "[2/7] Instalando gestores de sesión..."
 
 sudo xbps-install -y \
     seatd \
@@ -28,7 +28,7 @@ sudo xbps-install -y \
     polkit-gnome
 
 echo ""
-echo "[3/6] Instalando Hyprland y dependencias gráficas..."
+echo "[3/7] Instalando Hyprland y dependencias gráficas..."
 
 sudo xbps-install -y \
     hyprland \
@@ -45,7 +45,7 @@ sudo xbps-install -y \
     libglvnd
 
 echo ""
-echo "[4/6] Instalando Noctalia y utilidades..."
+echo "[4/7] Instalando Noctalia y utilidades..."
 
 sudo xbps-install -y noctalia
 
@@ -121,7 +121,7 @@ sudo xbps-install -y \
 
 
 echo ""
-echo "[5/6] Habilitando servicios..."
+echo "[5/7] Habilitando servicios..."
 
 sudo ln -sf /etc/sv/dbus /var/service/
 sudo ln -sf /etc/sv/seatd /var/service/
@@ -144,7 +144,7 @@ sudo usermod -aG video "$(whoami)"
 sudo usermod -aG audio "$(whoami)"
 
 echo ""
-echo "[6/6] Configurando variables de entorno..."
+echo "[6/7] Configurando variables de entorno..."
 
 mkdir -p ~/.config/environment.d
 
