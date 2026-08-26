@@ -111,9 +111,9 @@ sudo xbps-install -y \
      mkdir -p ~/.local/share/fonts/roboto-mono
      mkdir -p ~/.local/share/fonts/roboto-flex
 
-  if [ -d /tmp/google-fonts/ofl/robotomono ]; then
-    find /tmp/google-fonts/ofl/robotomono -type f -iname '*.ttf' \
-        -exec cp -n {} ~/.local/share/fonts/roboto-mono/ \;
+if [ -d /tmp/google-fonts/apache/robotomono ]; then
+    find /tmp/google-fonts/apache/robotomono -type f -iname '*.ttf' \
+        -exec cp -n {} "$HOME/.local/share/fonts/roboto-mono/" \;
 else
     echo "ERROR: No se encontró Roboto Mono"
     exit 1
@@ -121,7 +121,7 @@ fi
 
 if [ -d /tmp/google-fonts/ofl/robotoflex ]; then
     find /tmp/google-fonts/ofl/robotoflex -type f -iname '*.ttf' \
-        -exec cp -n {} ~/.local/share/fonts/roboto-flex/ \;
+        -exec cp -n {} "$HOME/.local/share/fonts/roboto-flex/" \;
 else
     echo "ERROR: No se encontró Roboto Flex"
     exit 1
