@@ -101,27 +101,50 @@ sudo xbps-install -y \
      
 
      echo ""
-     echo "Instalando fuentes "
+     echo "Instalando fuentes Roboto Mono y Roboto Flex..."
 
-git clone --depth 1 --no-checkout https://github.com/google/fonts.git /tmp/google-fonts
+# Crear directorios de destino
+mkdir -p "$HOME/.local/share/fonts/roboto-mono"
+mkdir -p "$HOME/.local/share/fonts/roboto-flex"
 
-# copiar solo los subdirectorios que necesitas
-if [ -d /tmp/google-fonts/apache/robotomono ]; then
-    find /tmp/google-fonts/apache/robotomono -type f -iname '*.ttf' -exec cp -n {} "$HOME/.local/share/fonts/roboto-mono/" \;
+# Descargar Roboto Mono desde GitHub (ZIP completo)
+echo "Descargando Roboto Mono..."
+if curl -L -o "/tmp/roboto-mono.zip" "https://github.com/google/fonts/releases/download/main-apache-2024-11-08/roboto-mono.zip" 2>/dev/null && [ -f "/tmp/roboto-mono.zip" ]; then
+    unzip -q -o "/tmp/roboto-mono.zip" -d /tmp/roboto-mono-extract
+    find /tmp/roboto-mono-extract -type f -iname '*.ttf' -exec cp -n {} "$HOME/.local/share/fonts/roboto-mono/" \;
+    rm -rf /tmp/roboto-mono-extract /tmp/roboto-mono.zip
+    echo "Roboto Mono instalada correctamente."
+elif wget -q -O "/tmp/roboto-mono.zip" "https://github.com/google/fonts/releases/download/main-apache-2024-11-08/roboto-mono.zip" && [ -f "/tmp/roboto-mono.zip" ]; then
+    unzip -q -o "/tmp/roboto-mono.zip" -d /tmp/roboto-mono-extract
+    find /tmp/roboto-mono-extract -type f -iname '*.ttf' -exec cp -n {} "$HOME/.local/share/fonts/roboto-mono/" \;
+    rm -rf /tmp/roboto-mono-extract /tmp/roboto-mono.zip
+    echo "Roboto Mono instalada correctamente."
 else
-    echo "ERROR: No se encontró Roboto Mono"
-    exit 1
+    echo "Advertencia: No se pudo descargar Roboto Mono. Intentando con paquete fonts-roboto-ttf..."
+    sudo xbps-install -y fonts-roboto-ttf 2>/dev/null || true
 fi
 
-if [ -d /tmp/google-fonts/ofl/robotoflex ]; then
-    find /tmp/google-fonts/ofl/robotoflex -type f -iname '*.ttf' -exec cp -n {} "$HOME/.local/share/fonts/roboto-flex/" \;
+# Descargar Roboto Flex desde GitHub (ZIP completo)
+echo "Descargando Roboto Flex..."
+if curl -L -o "/tmp/roboto-flex.zip" "https://github.com/google/fonts/releases/download/main-ofl-2024-11-08/roboto-flex.zip" 2>/dev/null && [ -f "/tmp/roboto-flex.zip" ]; then
+    unzip -q -o "/tmp/roboto-flex.zip" -d /tmp/roboto-flex-extract
+    find /tmp/roboto-flex-extract -type f -iname '*.ttf' -exec cp -n {} "$HOME/.local/share/fonts/roboto-flex/" \;
+    rm -rf /tmp/roboto-flex-extract /tmp/roboto-flex.zip
+    echo "Roboto Flex instalada correctamente."
+elif wget -q -O "/tmp/roboto-flex.zip" "https://github.com/google/fonts/releases/download/main-ofl-2024-11-08/roboto-flex.zip" && [ -f "/tmp/roboto-flex.zip" ]; then
+    unzip -q -o "/tmp/roboto-flex.zip" -d /tmp/roboto-flex-extract
+    find /tmp/roboto-flex-extract -type f -iname '*.ttf' -exec cp -n {} "$HOME/.local/share/fonts/roboto-flex/" \;
+    rm -rf /tmp/roboto-flex-extract /tmp/roboto-flex.zip
+    echo "Roboto Flex instalada correctamente."
 else
-    echo "ERROR: No se encontró Roboto Flex"
-    exit 1
+    echo "Advertencia: No se pudo descargar Roboto Flex. Las fuentes del sistema se usaran como respaldo."
 fi
 
-# opcional limpiar
-rm -rf /tmp/google-fonts
+# Actualizar cache de fuentes
+echo "Actualizando caché de fuentes..."
+fc-cache -fv "$HOME/.local/share/fonts" 2>/dev/null || fc-cache -f 2>/dev/null || true
+
+echo "Fuentes instaladas correctamente."
 
 
 
