@@ -49,13 +49,10 @@ echo "[4/7] Instalando Noctalia y utilidades..."
 
 sudo xbps-install -y noctalia
 
-sudo xbps-install -S \
+sudo xbps-install -y \
     void-repo-nonfree \
     void-repo-multilib \
     void-repo-multilib-nonfree 
-
-sudo xbps-install -S
-
 
 sudo xbps-install -y \
     foot \
@@ -79,7 +76,7 @@ sudo xbps-install -y \
     rtkit \
     bluez-alsa \
     bluez \
-    pipewire-pulse \
+    alsa-pipewire \
     adw-bluetooth \
     NetworkManager \
     fonts-roboto-ttf \
