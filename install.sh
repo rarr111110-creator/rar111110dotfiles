@@ -97,6 +97,8 @@ sudo xbps-install -y \
     gvfs-smb \
     gnome-software \
     nautilus \
+    mesa \
+    mesa-dri
     
 
      
