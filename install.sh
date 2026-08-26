@@ -111,7 +111,7 @@ sudo xbps-install -y \
      mkdir -p ~/.local/share/fonts/roboto-flex
 
      find /tmp/google-fonts -type f -path '*robotomono*' -name '*.ttf' \
-         -exec cp -n {} ~/.local/share/fonts/roboto-mono/ \;
+    -exec cp -n {} ~/.local/share/fonts/roboto-mono/ \;
 
 
      find /tmp/google-fonts -type f -path '*robotoflex*' -name '*.ttf' \
