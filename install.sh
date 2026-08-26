@@ -158,7 +158,7 @@ EOF
 echo ""
 echo "[7/7] Configurando Hyprland..."
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 chmod +x "${SCRIPT_DIR}/configure-hyprland.sh"
 bash "${SCRIPT_DIR}/configure-hyprland.sh"
 
