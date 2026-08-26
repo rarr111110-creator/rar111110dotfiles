@@ -103,34 +103,25 @@ sudo xbps-install -y \
      echo ""
      echo "Instalando fuentes "
 
-git clone --depth 1 --filter=blob:none --sparse \
-    https://github.com/google/fonts.git /tmp/google-fonts
+git clone --depth 1 https://github.com/google/fonts.git /tmp/google-fonts
 
-cd /tmp/google-fonts
-
-git sparse-checkout set \
-    apache/robotomono \
-    ofl/robotoflex
-
-mkdir -p "$HOME/.local/share/fonts/roboto-mono"
-mkdir -p "$HOME/.local/share/fonts/roboto-flex"
-
+# copiar solo los subdirectorios que necesitas
 if [ -d /tmp/google-fonts/apache/robotomono ]; then
-    find /tmp/google-fonts/apache/robotomono -type f -iname '*.ttf' \
-        -exec cp -n {} "$HOME/.local/share/fonts/roboto-mono/" \;
+    find /tmp/google-fonts/apache/robotomono -type f -iname '*.ttf' -exec cp -n {} "$HOME/.local/share/fonts/roboto-mono/" \;
 else
     echo "ERROR: No se encontró Roboto Mono"
     exit 1
 fi
 
 if [ -d /tmp/google-fonts/ofl/robotoflex ]; then
-    find /tmp/google-fonts/ofl/robotoflex -type f -iname '*.ttf' \
-        -exec cp -n {} "$HOME/.local/share/fonts/roboto-flex/" \;
+    find /tmp/google-fonts/ofl/robotoflex -type f -iname '*.ttf' -exec cp -n {} "$HOME/.local/share/fonts/roboto-flex/" \;
 else
     echo "ERROR: No se encontró Roboto Flex"
     exit 1
 fi
 
+# opcional limpiar
+rm -rf /tmp/google-fonts
 
 
 
