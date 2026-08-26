@@ -103,7 +103,7 @@ sudo xbps-install -y \
      echo ""
      echo "Instalando fuentes "
 
-git clone --depth 1 https://github.com/google/fonts.git /tmp/google-fonts
+git clone --depth 1 --no-checkout https://github.com/google/fonts.git /tmp/google-fonts
 
 # copiar solo los subdirectorios que necesitas
 if [ -d /tmp/google-fonts/apache/robotomono ]; then
