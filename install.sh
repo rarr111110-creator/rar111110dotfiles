@@ -103,11 +103,9 @@ sudo xbps-install -y \
      echo ""
      echo "Instalando fuentes Roboto Mono y Roboto Flex..."
 
-# Crear directorios de destino
 mkdir -p "$HOME/.local/share/fonts/roboto-mono"
 mkdir -p "$HOME/.local/share/fonts/roboto-flex"
 
-# Descargar Roboto Mono desde GitHub (ZIP completo)
 echo "Descargando Roboto Mono..."
 if curl -L -o "/tmp/roboto-mono.zip" "https://github.com/google/fonts/releases/download/main-apache-2024-11-08/roboto-mono.zip" 2>/dev/null && [ -f "/tmp/roboto-mono.zip" ]; then
     unzip -q -o "/tmp/roboto-mono.zip" -d /tmp/roboto-mono-extract
@@ -124,7 +122,6 @@ else
     sudo xbps-install -y fonts-roboto-ttf 2>/dev/null || true
 fi
 
-# Descargar Roboto Flex desde GitHub (ZIP completo)
 echo "Descargando Roboto Flex..."
 if curl -L -o "/tmp/roboto-flex.zip" "https://github.com/google/fonts/releases/download/main-ofl-2024-11-08/roboto-flex.zip" 2>/dev/null && [ -f "/tmp/roboto-flex.zip" ]; then
     unzip -q -o "/tmp/roboto-flex.zip" -d /tmp/roboto-flex-extract
@@ -140,7 +137,6 @@ else
     echo "Advertencia: No se pudo descargar Roboto Flex. Las fuentes del sistema se usaran como respaldo."
 fi
 
-# Actualizar cache de fuentes
 echo "Actualizando caché de fuentes..."
 fc-cache -fv "$HOME/.local/share/fonts" 2>/dev/null || fc-cache -f 2>/dev/null || true
 
