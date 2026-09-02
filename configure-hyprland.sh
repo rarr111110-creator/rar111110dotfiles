@@ -6,6 +6,7 @@ echo "Configurando Hyprland..."
 
 mkdir -p ~/.config/hypr/
 rm -rf ~/.config/hypr/hyprland.lua
+mkdir -p "$HOME/Documentos/Screenshots"
 
 cat > ~/.config/hypr/hyprland.lua << 'EOF'
 
