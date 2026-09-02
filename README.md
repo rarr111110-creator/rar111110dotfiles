@@ -1,8 +1,8 @@
-#rar111110-creatorDotfiles
+# rar111110-creatorDotfiles
 
-#Revisa que hace y usalo si quieres
+# Revisa que hace y usalo si quieres
 
-#dependencias:
-#git
+# dependencias:
+# git
 
 
